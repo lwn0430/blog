@@ -1,0 +1,87 @@
+  <aside>
+    <div class="rnav">
+    {foreach from=$subCate item='row' key='key'}
+      <li class="rnav{$key % 4 + 1} "><a href="index.php?p=Home&c=Article&a=index&cate_id={$row.cate_id}">{$row.cate_name}</a></li>
+    {/foreach}
+    </div>
+    <div class="ph_news">
+      <h2>
+        <p>点击排行</p>
+      </h2>
+      <ul class="ph_n">
+        {foreach from=$sortByHits item='row' name='n1'}
+          {if $smarty.foreach.n1.iteration <= 3}      
+        <li><span class="num{$smarty.foreach.n1.iteration}">{$smarty.foreach.n1.iteration}</span><a href="index.php?p=Home&c=Article&a=show&art_id={$row.art_id}">{$row.title}</a></li>
+          {else}
+          <li><span>{$smarty.foreach.n1.iteration}</span><a href="index.php?p=Home&c=Article&a=show&art_id={$row.art_id}">{$row.title}</a></li>
+          {/if}
+        {/foreach}
+      </ul>
+      <h2>
+        <p>栏目推荐</p>
+      </h2>
+      <ul>
+      {foreach from=$sortByRecommend item='row'}
+        <li><a href="index.php?p=Home&c=Article&a=show&art_id={$row.art_id}">{$row.title}</a></li>
+      {/foreach}
+      </ul>
+      <h2>
+        <p>最新评论</p>
+      </h2>
+      <ul class="pl_n">
+        <dl>
+          <dt><img src="{$smarty.const.IMAGES_DIR}/s8.jpg"> </dt>
+          <dt> </dt>
+          <dd>DanceSmile
+            <time>49分钟前</time>
+          </dd>
+          <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+        </dl>
+        <dl>
+          <dt><img src="{$smarty.const.IMAGES_DIR}/s7.jpg"> </dt>
+          <dt> </dt>
+          <dd>yisa
+            <time>2小时前</time>
+          </dd>
+          <dd><a href="/">我手机里面也有这样一个号码存在</a></dd>
+        </dl>
+        <dl>
+          <dt><img src="{$smarty.const.IMAGES_DIR}/s6.jpg"> </dt>
+          <dt> </dt>
+          <dd>小林博客
+            <time>8月7日</time>
+          </dd>
+          <dd><a href="/">博客色彩丰富，很是好看</a></dd>
+        </dl>
+        <dl>
+          <dt><img src="{$smarty.const.IMAGES_DIR}/003.jpg"> </dt>
+          <dt> </dt>
+          <dd>DanceSmile
+            <time>49分钟前</time>
+          </dd>
+          <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+        </dl>
+        <dl>
+          <dt><img src="{$smarty.const.IMAGES_DIR}/002.jpg"> </dt>
+          <dt> </dt>
+          <dd>yisa
+            <time>2小时前</time>
+          </dd>
+          <dd><a href="/">我手机里面也有这样一个号码存在</a></dd>
+        </dl>
+      </ul>
+      <h2>
+        <p>最近访客</p>
+        <ul>
+          <img src="{$smarty.const.IMAGES_DIR}/vis.jpg"><!-- 直接使用“多说”插件的调用代码 -->
+        </ul>
+      </h2>
+    </div>
+    <div class="copyright">
+      <ul>
+        <p> Design by <a href="/">ZAFU</a></p>
+        <p>浙ICP备11002373号-1</p>
+        </p>
+      </ul>
+    </div>
+  </aside>

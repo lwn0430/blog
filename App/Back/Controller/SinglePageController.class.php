@@ -1,0 +1,129 @@
+<?php
+//后台单页管理控制器
+class SinglePageController extends PlatformController
+{
+    //单页管理动作首页
+    public function indexAction()
+    {
+        //需要提取所有的信息页面
+        //调用模型
+        $singlePage=Factory::M('SinglePageModel');
+        $pageInfo=$singlePage->getSinglePage();
+        //分配变量
+        $this->assign('pageInfo',$pageInfo);
+        //输出视图文件
+        $this->display('index.html');
+    }
+    //显示添加单页表单的动作
+    public function addAction()
+    {
+        $this->display('add.html');
+    }
+    //处理单页页面提交的数据
+    public function dealAddAction()
+    {
+        //接收表单
+        $pageInfo=array();
+        $pageInfo['title']=$_POST['title'];
+        $pageInfo['content']=addslashes($_POST['content']);
+        //判断数据的合法性
+        if(empty($pageInfo['title']) || empty($pageInfo['content']))
+        {
+            $this->jump('index.php?p=Back&c=SinglePage&a=add',':(您填写的信息不完整!');
+        }
+        //调用模型，数据入库
+        $singlePage=Factory::M('SinglePageModel');
+        $result=$singlePage->insertPage($pageInfo);
+        if($result)
+        {
+            $this->jump('index.php?p=Back&c=SinglePage&a=index');
+        }else{
+            $this->jump('index.php?p=Back&c=SinglePage&a=add',':(发生未知错误!添加失败');
+        }
+    }
+    //54 修改单页信息动作
+    public function editAction()
+    {
+        //获取当前分类的原始信息
+        $page_id=$_GET['page_id'];
+        //实例化模型
+        $singlepage=Factory::M('SinglePageModel');
+        $pageInfoById=$singlepage->getPageInfoById($page_id);
+        //分配变量
+        $this->assign('pageInfoById',$pageInfoById);
+        //显示视图文件
+        $this->display('edit.html');
+    }
+    //54.处理修改单页信息动作
+    public function dealEditAction()
+    {
+        //接受表单数据
+        $page=array();
+        //原PPT中 用了escapeData函数，但是并没有定义 解决方法：把escapeData函数删去
+        $page['title']=$this->escapeData($_POST['title']);
+        $page['content']=$this->escapeData($_POST['content']);
+        $page['page_id']=$_POST['page_id'];             //从隐藏域中接受当前分类的id号
+        //判断数据是否合法
+        if(empty($page['title'])||empty($page['content']))
+        {
+            $this->jump("index.php?p=Back&c=SinglePage&a=edit&page_id={$page['page_id']}",':(您填写的信息不完整!');
+        }
+        //修改分类，需要调用模型
+        $singlepage=Factory::M('SinglePageModel');
+        //调用updateCateById方法
+        $result=$singlepage->updatePageById($page);
+        if($result)
+        {
+            //成功修改,立即跳转到分类首页
+            $this->jump('index.php?p=Back&c=SinglePage&a=index');
+        }else
+        {
+            //修改失败了
+            $this->jump('index.php?p=Back&c=SinglePage&a=edit','发生未知错误，修改单页失败');
+        }
+    }
+    //54.删除单个单页动作
+    public function delAction()
+    {
+        //获取要删除的分类的id号
+        $page_id=$_GET['page_id'];
+        //实例化模型，执行删除操作
+        $singlepage=Factory::M('SinglePageModel');
+        $result=$singlepage->delPageById($page_id);
+        //跳转
+        if($result)
+        {
+            //删除成功,跳转到分类首页
+            $this->jump('index.php?p=Back&c=SinglePage&a=index');
+        }
+        else{
+            //删除失败
+            $this->jump('index.php?p=Back&c=SinglePage&a=index',':(发生未知错误，删除失败!');
+        }
+    }
+    //54.批量删除单页动作
+    public function delAllAction()
+    {
+        //先判断用户有没有选项
+        if(!isset($_POST['page_id']))
+        {
+            $this->jump('index.php?p=Back&c=SinglePage&a=index','请先选择要删除的单页!');
+        }
+        //接收需要删除的单页id号
+        $page_id=$_POST['page_id'];
+        //实例化模型，执行批量删除操作
+        $singlepage=Factory::M('SinglePageModel');
+        $result=$singlepage->delAllCate($page_id);
+        //跳转
+        if($result)
+        {
+            //删除成功
+            $this->jump('index.php?p=Back&c=SinglePage&a=index');
+        }
+        else
+        {
+            //删除失败
+            $this->jump('index.php?p=Back&c=SinglePage&a=index',':(发生未知错误，删除失败!');
+        }
+    }
+}

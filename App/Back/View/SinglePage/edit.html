@@ -1,0 +1,44 @@
+{include file='../Public/public.html'}
+<script type="text/javascript" src='/App/Back/Public/ckeditor/ckeditor.js'></script>
+<div class="admin">
+  <div class="tab">
+    <div class="tab-head"> <a href="index.php?p=Back&c=SinglePage&a=index"><strong>单页管理</strong></a>
+      <ul class="tab-nav">
+        <li class="active"><a href="#tab-set">修改单页</a></li>
+      </ul>
+    </div>
+    <div class="tab-body"> <br />
+      <div class="tab-panel active" id="tab-set">
+        <form method="POST" class="form-x" action="index.php?p=Back&c=SinglePage&a=dealEdit" enctype="multipart/form-data">
+          <div class="form-group">
+            <div class="label">
+              <label for="sitename">单页标题</label>
+            </div>
+            <div class="field">
+              <input type="text" class="input" id="title" name="title" size="50" placeholder="单页标题" data-validate="required:请填写您的单页标题" value="{$pageInfoById.title}"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="label">
+              <label for="readme">单页内容</label>
+            </div>
+            <div class="field">
+              <textarea name="content" id="ckeditor" class="input" rows="8" cols="50">{$pageInfoById.content}</textarea>
+              <script type="text/javascript">
+                CKEDITOR.replace('ckeditor');
+              </script>
+            </div>
+          </div>
+          <div class="form-button">
+            <input type="hidden" name="page_id" value="{$pageInfoById.page_id}">
+            <button name="submit" class="button bg-main" type="submit">提交</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div style='height:40px; border-bottom:1px #DDD solid'></div>
+  <p class="text-right text-gray" style="float:right">基于<a class="text-gray" target="_blank" href="#">MVC框架</a>构建</p>
+</div>
+</body>
+</html>
